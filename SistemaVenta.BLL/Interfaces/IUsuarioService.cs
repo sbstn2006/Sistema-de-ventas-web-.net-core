@@ -9,9 +9,8 @@ namespace SistemaVenta.BLL.Interfaces
 {
     public interface IUsuarioService
     {
-
         Task<List<Usuario>> Lista();
-        Task<Usuario> Crear(Usuario entidad, Stream Foto = null,string NombreFoto = "",string UrlPlantillaCorreo="");
+        Task<Usuario> Crear(Usuario entidad, Stream Foto = null, string NombreFoto = "",string UrlPlantillaCorreo="");
         Task<Usuario> Editar(Usuario entidad, Stream Foto = null, string NombreFoto = "");
         Task<bool> Eliminar(int IdUsuario);
         Task<Usuario> ObtenerPorCredenciales(string correo, string clave);
@@ -19,6 +18,5 @@ namespace SistemaVenta.BLL.Interfaces
         Task<bool> GuardarPerfil(Usuario entidad);
         Task<bool> CambiarClave(int IdUsuario, string ClaveActual, string ClaveNueva);
         Task<bool> RestablecerClave(string Correo, string UrlPlantillaCorreo);
-
     }
 }
