@@ -45,7 +45,6 @@ $(document).ready(function () {
              {
                  "data": "urlFoto", render: function (data) {
                      return`<img style="height:60px" src=${data} class="rounded mx-auto d-block"/>`
-                 
                  }
              },
              { "data": "nombre" },
@@ -142,11 +141,11 @@ $("#btnGuardar").on("click", function () {
 
         fetch("/UsuarioController1/Crear", {
             method: "POST",
-            body:formData
+            body: formData
         })
             .then(response => {
                 $("#modalData").find("div.modal-content").LoadingOverlay("hide");
-            return response.ok ? response.json() : Promise.reject(response);
+                return response.ok ? response.json() : Promise.reject(response);
             })
             .then(responseJson => {
 
@@ -161,4 +160,105 @@ $("#btnGuardar").on("click", function () {
                 }
             })
     }
+    else
+    {
+        fetch("/UsuarioController1/Editar", {
+            method: "PUT",
+            body: formData
+        })
+            .then(response => {
+                $("#modalData").find("div.modal-content").LoadingOverlay("hide");
+                return response.ok ? response.json() : Promise.reject(response);
+            })
+            .then(responseJson => {
+
+                if (responseJson.estado) {
+
+                    tablaData.row(filaSeleccionada).data(responseJson.objeto).draw(false);
+                    filaSeleccionada = null;
+                    $("#modalData").modal("hide")
+                    swal("Listo!", "El usuario fue actualizado", "success")
+                }
+                else
+                {
+                    swal("Lo sentimos...", responseJson.mensaje, "error")
+                }
+            })
+
+
+    }
+})
+
+
+let filaSeleccionada;
+$("#tbdata tbody").on("click", ".btn-editar", function () {
+
+    if ($(this).closest("tr").hasClass("child")) {
+        filaSeleccionada = $(this).closest("tr").prev()
+    }
+    else
+    {
+        filaSeleccionada = $(this).closest("tr");
+    }
+
+    const data = tablaData.row(filaSeleccionada).data();
+
+    mostrarModal(data);
+})
+
+
+$("#tbdata tbody").on("click", ".btn-eliminar", function () {
+
+    let fila;
+
+    if ($(this).closest("tr").hasClass("child")) {
+        fila = $(this).closest("tr").prev()
+    }
+    else {
+        fila = $(this).closest("tr");
+    }
+
+    const data = tablaData.row(fila).data();
+
+    swal({
+        title: "¿Estás seguro de eliminar?",
+        text: `Eliminar al usuario "${data.nombre}"`,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Si, eliminar",
+        cancelButtonText: "No, cancelar",
+        closeOnConfirm: false,
+        closeOncancel: true
+
+    },
+        function (respuesta)
+        {
+
+            if (respuesta)
+            {
+                $(".showSweetAlert").LoadingOverlay("show");
+
+                fetch(`/UsuarioController1/Eliminar?IdUsuario=${data.idUsuario}`, {
+                    method: "DELETE"
+                })
+                    .then(response => {
+                        $(".showSweetAlert").LoadingOverlay("hide");
+                        return response.ok ? response.json() : Promise.reject(response);
+                    })
+                    .then(responseJson => {
+
+                        if (responseJson.estado) {
+
+                            tablaData.row(fila).remove().draw()
+                            swal("Listo!", "El usuario fue eliminado", "success")
+                        }
+                        else {
+                            swal("Lo sentimos...", responseJson.mensaje, "error")
+                        }
+                    })
+
+            }
+        }
+    )
 })

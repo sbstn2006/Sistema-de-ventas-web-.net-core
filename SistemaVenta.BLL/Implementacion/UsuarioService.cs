@@ -126,6 +126,7 @@ namespace SistemaVenta.BLL.Implementacion
                 usuario_editar.Correo = entidad.Correo;
                 usuario_editar.Telefono = entidad.Telefono;
                 usuario_editar.IdRol = entidad.IdRol;
+                usuario_editar.EsActivo = entidad.EsActivo;
 
                 if (usuario_editar.NombreFoto == "")
                     usuario_editar.NombreFoto = NombreFoto;
@@ -138,19 +139,18 @@ namespace SistemaVenta.BLL.Implementacion
 
                 bool respuesta = await _repositorio.Editar(usuario_editar);
 
-                if (respuesta)
+                if (!respuesta)
                     throw new TaskCanceledException("No se pudo modificar el usuario");
                 Usuario usuario_editado = queryUsuario.Include(r => r.IdRolNavigation).First();
 
                 return usuario_editado;
 
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw new Exception($"Error al editar el usuario: {ex.Message}", ex);
             }
-        }
-
+    }
     public async Task<bool> Eliminar(int IdUsuario)
     {
             try
