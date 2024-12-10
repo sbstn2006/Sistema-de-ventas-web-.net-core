@@ -88,8 +88,6 @@ $(document).ready(function () {
 
 })
 
-txtId
-
 function mostrarModal(modelo = MODELO_BASE) {
     $("#txtId").val(modelo.idUsuario)
     $("#txtNombre").val(modelo.nombre)
