@@ -12,6 +12,7 @@ namespace SistemaVenta.AplicacionWeb.Controllers
     public class NegocioController1 : Controller
     {
 
+
         private readonly IMapper _mapper;
         private readonly INegocioService _negocioService;
 
@@ -21,9 +22,14 @@ namespace SistemaVenta.AplicacionWeb.Controllers
             _negocioService = negocioService;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
 
-        public async Task <IActionResult> Obtener()
+        public async Task<IActionResult> Obtener()
         {
 
             GenericResponse<VMNegocio> gResponse = new GenericResponse<VMNegocio>();
@@ -35,23 +41,19 @@ namespace SistemaVenta.AplicacionWeb.Controllers
                 gResponse.Estado = true;
                 gResponse.Objeto = vmNegocio;
 
-            
+
             }
             catch (Exception ex)
             {
                 gResponse.Estado = false;
                 gResponse.Mensaje = ex.Message;
             }
-
-
-
-
-            return StatusCode(StatusCodes.Status200OK,gResponse);
+            return StatusCode(StatusCodes.Status200OK, gResponse);
         }
 
         [HttpPost]
 
-        public async Task<IActionResult> GuardarCambios([FromForm]IFormFile logo, [FromForm]string modelo)
+        public async Task<IActionResult> GuardarCambios([FromForm] IFormFile logo, [FromForm] string modelo)
         {
 
             GenericResponse<VMNegocio> gResponse = new GenericResponse<VMNegocio>();
@@ -63,7 +65,7 @@ namespace SistemaVenta.AplicacionWeb.Controllers
                 string nombreLogo = "";
                 Stream logoStream = null;
 
-                if (logo != null) 
+                if (logo != null)
                 {
 
                     string nombre_en_codigo = Guid.NewGuid().ToString("N");

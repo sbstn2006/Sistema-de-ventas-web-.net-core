@@ -27,9 +27,9 @@ namespace SistemaVenta.AplicacionWeb.Controllers
             _mapper = mapper;
         }
         public IActionResult Index()
-    {
+        {
         return View();
-    }
+        }
 
         [HttpGet]
         public async Task<IActionResult> ListaRoles()

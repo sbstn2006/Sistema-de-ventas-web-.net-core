@@ -53,8 +53,8 @@ namespace SistemaVenta.BLL.Implementacion
 
                 if (Logo != null)
                 {
-                    string urlFoto = await _firebaseService.SubirStorage(Logo, "carpeta_logo", negocio_encontrado.NombreLogo);
-                    negocio_encontrado.UrlLogo = urlFoto;
+                    string urlLogo = await _firebaseService.SubirStorage(Logo, "carpeta_logo", negocio_encontrado.NombreLogo);
+                    negocio_encontrado.UrlLogo = urlLogo;
                 }
 
                 await _repositorio.Editar(negocio_encontrado);
