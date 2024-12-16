@@ -65,13 +65,11 @@ namespace SistemaVenta.AplicacionWeb.Controllers
 
             try
             {
-
                 Categoria categoria_editada = await _categoriaServicio.Editar(_mapper.Map<Categoria>(modelo));
                 modelo = _mapper.Map<VMCategoria>(categoria_editada);
 
                 gResponse.Estado = true;
                 gResponse.Objeto = modelo;
-
             }
             catch (Exception ex)
             {

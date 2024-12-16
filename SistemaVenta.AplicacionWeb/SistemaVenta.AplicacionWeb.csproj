@@ -18,4 +18,8 @@
     <ProjectReference Include="..\SistemaVenta.IOC\SistemaVenta.IOC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\js\vistas2\" />
+  </ItemGroup>
+
 </Project>

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using SistemaVenta.BLL.Interfaces;
-using SistemaVenta.DAL.Implementacion;
 using SistemaVenta.DAL.Interfaces;
 using SistemaVenta.Entity;
 
@@ -19,8 +18,7 @@ namespace SistemaVenta.BLL.Implementacion
         private readonly IFireBaseService _fireBaseServicio;
 
         public ProductoService(IGenericRepository<Producto> repositorio, 
-            IFireBaseService fireBaseServicio, 
-            IUtilidadesService utilidadesServicio)
+            IFireBaseService fireBaseServicio)
         {
             _repositorio = repositorio;
             _fireBaseServicio = fireBaseServicio;
@@ -29,11 +27,8 @@ namespace SistemaVenta.BLL.Implementacion
 
         public async Task<List<Producto>> Lista()
         {
-
             IQueryable<Producto> query = await _repositorio.Consultar();
             return query.Include(c => c.IdCategoriaNavigation).ToList();
-
-
         }
 
         public async Task<Producto> Crear(Producto entidad, Stream imagen = null, string NombreImagen = "")
